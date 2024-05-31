@@ -12,6 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -55,8 +56,6 @@ public class JPA6UnitTestCase
 		transaction.commit();
 
 		transaction.begin();
-		System.out.println("findById:");
-		cr = em.find(ChatRoom.class, cr.getId());
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 		CriteriaQuery<ChatRoom> query = criteriaBuilder.createQuery(ChatRoom.class);
 		Root<ChatRoom> from = query.from(ChatRoom.class);
@@ -69,7 +68,6 @@ public class JPA6UnitTestCase
 
 		System.out.println("refresh:");
 
-//		em.unwrap(Session.class).refresh(cr, new LockOptions(LockMode.PESSIMISTIC_WRITE).setFollowOnLocking(false));
 		em.refresh(cr, LockModeType.PESSIMISTIC_WRITE); //<-- too many entities been locked up here
 		transaction.commit();
 
